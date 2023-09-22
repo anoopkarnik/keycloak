@@ -1,0 +1,26 @@
+{
+    "family": "keycloak",
+    "containerDefinitions": [
+        {
+            "name": "keycloak-container",
+            "image": "456776435391.dkr.ecr.ap-south-1.amazonaws.com/keycloak-repo:latest",
+            "memory": 1024,
+            "cpu": 512,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 8080
+                }
+            ],
+            "logConfiguration":{
+                "logDriver":"awslogs",
+                "options":{
+                    "awslogs-group":"keycloak-logs",
+                    "awslogs-region":"ap-south-1",
+                    "awslogs-stream-prefix":"keycloak"
+                }
+            }
+        }
+    ]
+}
