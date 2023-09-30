@@ -5,7 +5,7 @@ FROM jboss/keycloak:15.1.1
 RUN /opt/jboss/keycloak/bin/add-user-keycloak.sh -u admin -p password
 
 # Install software-properties-common and certbot
-RUN yum update && yum install -y certbot
+RUN yum update && software-properties-common && yum install -y certbot
 
 # Create a script to request a Let's Encrypt certificate
 RUN echo '#!/bin/bash' > /opt/jboss/get-cert.sh && \
