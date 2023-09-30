@@ -46,12 +46,12 @@ jobs:
       id: fetch-ips
       run: |
         NEW_IPS=$(aws ecs list-tasks --cluster keycloak-cluster --service-name keycloak-service --query 'taskArns[]' --output text | \
-                  xargs -I {} aws ecs describe-tasks --cluster keycloak-cluster --tasks {} --query 'tasks[].attachments[].details[].value' --output text)
+                  xargs -I {} aws ecs describe-tasks --cluster keycloak-cluster --tasks {} --query 'tasks[].attachments[].details[?name==`privateIPv4Address`].value' --output text)
         echo "New IPs are: $NEW_IPS"
-        echo "NEW_IPS=$NEW_IPS" >> $GITHUB_ENV
+        echo "TARGETS=$(echo $NEW_IPS | awk '{for(i=1;i<=NF;i++) printf "Id=%s ", $i; printf "\n"}')" >> $GITHUB_ENV
 
     - name: Update Target Group
       run: |
         # Register new IPs
-        aws elbv2 register-targets --target-group-arn arn:aws:elasticloadbalancing:ap-south-1:456776435391:targetgroup/keycloak/c963af9a995df4cd --targets Id=$NEW_IPS
+        aws elbv2 register-targets --target-group-arn arn:aws:elasticloadbalancing:ap-south-1:456776435391:targetgroup/keycloak/c963af9a995df4cd --targets $TARGETS
 
