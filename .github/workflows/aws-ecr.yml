@@ -38,3 +38,8 @@ jobs:
         echo "Pushing image to ECR..."
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+    - name: Update ECS service
+      run: |
+        ecs-cli compose --project-name keycloak-service service up \
+        --create-log-groups \
+        --cluster-config kaycloak-cluster # Set your ECS cluster name here
