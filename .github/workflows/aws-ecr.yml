@@ -27,7 +27,7 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
           
     - name: Build, tag, and push the base image to Amazon ECR
-      id: build-image
+      id: build-image-base
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ${{ secrets.BASE_KEYCLOAK_ECR_REPOSITORY }}
