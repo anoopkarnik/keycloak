@@ -1,5 +1,5 @@
 {
-    "family": "keycloak",
+    "family": "keycloak-trial",
     "containerDefinitions": [
         {
             "name": "keycloak-container",
