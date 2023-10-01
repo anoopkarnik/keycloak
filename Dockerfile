@@ -1,11 +1,12 @@
 # Use the base image
+FROM 456776435391.dkr.ecr.ap-south-1.amazonaws.com/base-keycloak-repository:latest AS custom-base
+
 FROM jboss/keycloak:15.1.1
+
+COPY --from=custom-base /usr/bin/certbot /usr/bin/certbot
 
 # Add admin user
 RUN /opt/jboss/keycloak/bin/add-user-keycloak.sh -u admin -p password
-
-# Install software-properties-common and certbot
-RUN apk add --no-cache certbot
 
 # Create a script to request a Let's Encrypt certificate
 RUN echo '#!/bin/bash' > /opt/jboss/get-cert.sh && \

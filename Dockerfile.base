@@ -1,0 +1,9 @@
+# Use Ubuntu as the base image
+FROM ubuntu:latest
+
+# Install Certbot
+RUN apt-get update && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository -y ppa:certbot/certbot && \
+    apt-get update && \
+    apt-get install -y certbot
